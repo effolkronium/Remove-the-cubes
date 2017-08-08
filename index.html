@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,8 +12,9 @@
 
     <!-- Bootstrap -->
     <link href="external/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
@@ -44,11 +46,10 @@
 
             </div>
             <div class="col-sm-3">
-                <h1>--------------------<br>
-                    --------------------<br>
-                    --------------------<br>
-                    --------------------<br>
-                    --------------------<br>
+                <h1>--------------------<br> --------------------
+                    <br> --------------------
+                    <br> --------------------
+                    <br>
                 </h1>
             </div>
         </div>
@@ -57,38 +58,38 @@
 
             <!-- Column with the game field -->
             <div class="col-sm-9">
-                <div class="panel panel-default" style='height:65vh'></div>
+                <div class="panel panel-default field" style='height:65vh;position:relative'></div>
             </div>
-            
-            <!-- Column with the result table -->
-            <div class="col-sm-3">
-              <div class="panel panel-default" style='height:65vh'>
-                <div class="table-responsive" style='height:100%'>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th><span class='pull-right'>Points</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John</td>
-                                <td><span class='pull-right'>Doe</span></td>
-                            </tr>
-                            <tr>
-                                <td>Mary</td>
-                                <td><span class='pull-right'>Doe</span></td>
-                            </tr>
-                            <tr>
-                                <td>July</td>
-                                <td><span class='pull-right'>Doe</span></td> 
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
 
-              </div>
+            <!-- Column with a result table -->
+            <div class="col-sm-3">
+                <div class="panel panel-default" style='height:65vh'>
+                    <div class="table-responsive" style='height:100%'>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th><span class='pull-right'>Points</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John</td>
+                                    <td><span class='pull-right'>Doe</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mary</td>
+                                    <td><span class='pull-right'>Doe</span></td>
+                                </tr>
+                                <tr>
+                                    <td>July</td>
+                                    <td><span class='pull-right'>Doe</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -96,5 +97,11 @@
     <script src="external/jquery-3.2.1.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="external/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-  </body>
+
+    <script src="js/util.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/field.js"></script>
+    <script src="js/cube.js"></script>
+</body>
+
 </html>
