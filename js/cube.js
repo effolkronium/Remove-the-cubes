@@ -21,5 +21,5 @@ function CubeFactory() {
         }, 0);
     };
 
-    this.getCubesNumber = ()=>$('.cube').length();
+    this.getCubesNumber = ()=>$('.cube').length;
 }

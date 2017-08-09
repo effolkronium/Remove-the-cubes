@@ -9,7 +9,9 @@ function Field() {
         setToRandomPosition(element);
     };
 
-    this.getArea = ()=>fieldElement.width()*fieldElement.height();
+    this.getArea = () => fieldElement.width() * fieldElement.height();
+
+    this.clear = () => { fieldElement.empty(); };
 
     // Set random position of a DOM element relative to the field DOM element
     // considering the size of the element

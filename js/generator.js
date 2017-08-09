@@ -18,4 +18,9 @@ function Generator(generateCallback, delayRange) {
     }
 
     startTimer();
+
+    this.stop = () => { timer.stop(); };
+    this.pause = () => { timer.pause(); };
+    this.resume = () => { timer.resume(); };
+
 }
