@@ -1,6 +1,6 @@
 // create a square 'div' DOM element
 // with size{Number} and color{String}
-function makeCube(size, color) {
+function makeCube(size, color, onmousedown) {
     const cubeElement = document.createElement('div');
 
     cubeElement.setAttribute("style",
@@ -9,5 +9,7 @@ function makeCube(size, color) {
         + "background-color:" + color + ";"
     );
 
+    cubeElement.onmousedown = onmousedown;
+    
     return cubeElement;
 }
