@@ -1,15 +1,25 @@
-// create a square 'div' DOM element
-// with size{Number} and color{String}
-function makeCube(size, color, onmousedown) {
-    const cubeElement = document.createElement('div');
+function CubeFactory() {
+    // create a square 'div' DOM element
+    // with size{Number} and color{String}
+    this.makeCube = (size, color, mouseEvent) => {
+        const cube = $("<div></div>", {
+            style: "width:" + size + "px;"
+            + "height:" + size + "px;"
+            + "background-color:" + color + ";",
+            class: "cube"
+        });
 
-    cubeElement.setAttribute("style",
-        "width:" + size + "px;"
-        + "height:" + size + "px;"
-        + "background-color:" + color + ";"
-    );
+        cube.mousedown(mouseEvent);
 
-    cubeElement.onmousedown = onmousedown;
-    
-    return cubeElement;
+        return cube;
+    };
+
+    // Returns sum of area for all existing cubes
+    this.getTotalArea = ()=>{
+        return $('.cube').toArray().reduce((prevValue, thisElem)=>{
+            return prevValue + $(thisElem).outerWidth() * $(thisElem).outerHeight();
+        }, 0);
+    };
+
+    this.getCubesNumber = ()=>$('.cube').length();
 }

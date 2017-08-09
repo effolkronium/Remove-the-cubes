@@ -9,11 +9,11 @@ function Field() {
         setToRandomPosition(element);
     };
 
+    this.getArea = ()=>fieldElement.width()*fieldElement.height();
+
     // Set random position of a DOM element relative to the field DOM element
     // considering the size of the element
     function setToRandomPosition(element) {
-        element = $(element);
-
         const elSize = {
             width: element.outerWidth(),
             height: element.outerHeight()
@@ -24,25 +24,13 @@ function Field() {
             height: size_.height - elSize.height
         };
 
-        const randomPosition = getRandomPosition(diffSize);
+        const randomPosition = {
+            x: Util.getRandomInt(0, diffSize.width),
+            y: Util.getRandomInt(0, diffSize.height),
+        };
 
         element.css({ position: 'absolute' });
         element.css({ left: randomPosition.x, top: randomPosition.y });
     }
 
-    /**
-     * Returns a random position on a plane,
-     * starting from the left-top: corner{0, 0},
-     * to the right-bot corner: limitSize
-     * 
-     * @param {Object} limitSize {width:Number, height:Number}
-     *  max possible position
-     * @return {Object} {x:Number, y:Number}
-     */
-    function getRandomPosition(limitSize) {
-        return {
-            x: Util.getRandomInt(0, limitSize.width),
-            y: Util.getRandomInt(0, limitSize.height),
-        };
-    }
 }
