@@ -18,11 +18,15 @@ function GameTimer(callback, delay) {
         return time;
     }
 
+    let isStop = false;
     this.stop = ()=>{
-        timeElement.html( "00:00" );
-        clearInterval(timerId);
-        timer.stop();
-        callback();
+        if( !isStop ) { // prevent recursion call
+            isStop = true;
+            timeElement.html( "00:00" );
+            clearInterval(timerId);
+            timer.stop();
+            callback();
+        }
     };
 
     this.pause = ()=>{ timer.pause(); };

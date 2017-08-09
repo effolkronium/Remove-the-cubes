@@ -1,22 +1,37 @@
 $(document).ready(() => {
     let game;
+    let isStop = true;
 
     $('.btnNewGame').click(()=>{
-        $('.btnStart').html("PAUSE");
+        if( !isStop ) {
+            if(game) game.stop();
+            isStop = true;
+            $('.btnNewGame').html("NEW GAME");
+            $('.btnStart').html("START");
+        } else {
+            isStop = false;
+            game = new Game; // cute
+            $('.btnStart').html("PAUSE");
+            $('.btnNewGame').html("STOP GAME");
+        }
 
-        if( game ) game.stop();
-        game = new Game; // cute
-
-        game.onFinish(()=>{ $('.btnStart').html("START"); });
+        game.onFinish(()=>{ 
+            $('.btnStart').html("START");
+            $('.btnNewGame').html("NEW GAME"); 
+        });
     });
 
-    $('.btnStart').click(()=>{
-        if( game.isRunning() ) {
-            $('.btnStart').html("START");
-            game.pause();
+    $('.btnStart').click(() => {
+        if (isStop) {
+            $('.btnNewGame').trigger('click');
         } else {
-            $('.btnStart').html("PAUSE");
-            game.resume();
+            if (game.isRunning()) {
+                $('.btnStart').html("START");
+                game.pause();
+            } else {
+                $('.btnStart').html("PAUSE");
+                game.resume();
+            }
         }
     });
 });

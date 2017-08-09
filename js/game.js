@@ -60,8 +60,8 @@ function Game() {
     }
 
     this.stop = ()=>{
-        if( gameTimer.isRunning( ) )
-            gameTimer.stop();
+        running = false;
+        gameTimer.stop();
         cubeGenerator.stop();
         field.clear();
         onFinishCallback();

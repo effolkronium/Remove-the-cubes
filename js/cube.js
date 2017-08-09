@@ -11,6 +11,8 @@ function CubeFactory() {
 
         cube.mousedown(mouseEvent);
 
+        //$('<img src="assets/cube_brown.png">').appendTo(cube);
+
         return cube;
     };
 
