@@ -10,7 +10,7 @@ function Field() {
     };
 
     this.getArea = () => fieldElement.width() * fieldElement.height();
-
+    this.getSize = () => { return { width: fieldElement.width(), height: fieldElement.height() } };
     this.clear = () => { fieldElement.empty(); };
 
     // Set random position of a DOM element relative to the field DOM element

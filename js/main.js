@@ -2,9 +2,9 @@ $(document).ready(() => {
     let game;
     let isStop = true;
 
-    $('.btnNewGame').click(()=>{
-        if( !isStop ) {
-            if(game) game.stop();
+    $('.btnNewGame').click(() => {
+        if (!isStop) {
+            if (game) game.stop();
             isStop = true;
             $('.btnNewGame').html("NEW GAME");
             $('.btnStart').html("START");
@@ -15,9 +15,10 @@ $(document).ready(() => {
             $('.btnNewGame').html("STOP GAME");
         }
 
-        game.onFinish(()=>{ 
+        game.onFinish(() => {
             $('.btnStart').html("START");
-            $('.btnNewGame').html("NEW GAME"); 
+            $('.btnNewGame').html("NEW GAME");
+            isStop = true;
         });
     });
 

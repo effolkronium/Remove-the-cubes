@@ -22,6 +22,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h1>REMOVE THE CUBES</h1>
+                        <div><img src='assets/cube_blue.svg' width='15px'><img src='assets/cube_red.svg' width='15px'><img src='assets/cube_yellow.svg'
+                                width='15px'>Icons made by <a href="https://www.flaticon.com/authors/cole-bemis" title="Cole Bemis">Cole Bemis</a>                            from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+                            <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                        <div><img src='assets/cube_time.svg' width='15px'>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a>                            from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+                            <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
                     </div>
                 </div>
 
@@ -72,12 +77,39 @@
 
             <!-- Column with the game field -->
             <div class="col-sm-9">
-                <div class="panel panel-default field" style='height:65vh;position:relative'></div>
+
+                <div id='field' class="panel panel-default field" style='height:65vh;position:relative'></div>
+
+                <!-- Modal -->
+                <div id="resultModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title score">Your score: </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="usr">Name:</label>
+                                    <input type="text" class="form-control nameInput" id="usr">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><h4>Save</h4></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <!-- Column with a result table -->
+            <!-- Column with the result table -->
             <div class="col-sm-3">
                 <div class="panel panel-default" style='height:65vh'>
+                    <span class="text-center"><h4>RESULT</h4></span>
                     <div class="table-responsive" style='height:100%'>
                         <table class="table">
                             <thead>
@@ -86,19 +118,7 @@
                                     <th><span class='pull-right'>Points</span></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>John</td>
-                                    <td><span class='pull-right'>Doe</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Mary</td>
-                                    <td><span class='pull-right'>Doe</span></td>
-                                </tr>
-                                <tr>
-                                    <td>July</td>
-                                    <td><span class='pull-right'>Doe</span></td>
-                                </tr>
+                            <tbody class='tableBody'>
                             </tbody>
                         </table>
                     </div>
@@ -113,7 +133,9 @@
     <script src="external/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
     <script src="js/util.js"></script>
+    <script src="js/result.js"></script>
     <script src="js/generator.js"></script>
+    <script src="js/mover.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/points.js"></script>
     <script src="js/field.js"></script>

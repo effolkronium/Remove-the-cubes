@@ -25,6 +25,15 @@ function Timer(callback, delay) {
         return remaining
     }
 
+    // miliseconds
+    this.addTime = timePice => {
+        remaining += timePice;
+        if (running) {
+            this.pause()
+            this.resume()
+        }
+    }
+
     this.getStateRunning = ()=>running;
 
     this.getStateFinish = ()=>finish;

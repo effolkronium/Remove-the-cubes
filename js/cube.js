@@ -1,27 +1,34 @@
-function CubeFactory() {
-    // create a square 'div' DOM element
-    // with size{Number} and color{String}
-    this.makeCube = (size, color, mouseEvent) => {
-        const cube = $("<div></div>", {
-            style: "width:" + size + "px;"
-            + "height:" + size + "px;"
-            + "background-color:" + color + ";",
-            class: "cube"
-        });
+// Construct a cube DOM element
+function Cube(size, color, onClick) {
+    // JQuery cube DOM element
+    this.jElement = $("<img>", {
+        style: "width:" + size + "px;"
+        + "height:" + size + "px;"
+        //+ "background-color:" + color + ";"
+        ,
+        src: "assets/cube_" + color + ".svg",
+        class: "cube"
+    });
 
-        cube.mousedown(mouseEvent);
+    this.color = color;
+    this.setColor = newColor => {
+        this.jElement.attr("src", "assets/cube_" + newColor + ".svg");
+        this.color = newColor;
+    }
 
-        //$('<img src="assets/cube_brown.png">').appendTo(cube);
-
-        return cube;
-    };
-
-    // Returns sum of area for all existing cubes
-    this.getTotalArea = ()=>{
-        return $('.cube').toArray().reduce((prevValue, thisElem)=>{
-            return prevValue + $(thisElem).outerWidth() * $(thisElem).outerHeight();
-        }, 0);
-    };
-
-    this.getCubesNumber = ()=>$('.cube').length;
+    this.jElement.mousedown(onClick);
+    this.jElement.css("user-select", "none");
+    this.jElement.on('dragstart', event => { event.preventDefault(); });
+    $('.field').on('dragstart', event => { event.preventDefault(); });
 }
+
+// Static methods:
+
+Cube.getCubesNumber = () => $('.cube').length;
+
+// Returns sum of area for all existing cubes
+Cube.getTotalArea = () => {
+    return $('.cube').toArray().reduce((prevValue, thisElem) => {
+        return prevValue + $(thisElem).outerWidth() * $(thisElem).outerHeight();
+    }, 0);
+};
