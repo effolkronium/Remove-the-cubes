@@ -1,47 +1,56 @@
+'use strict'
+// Invoke callback after delay. Can be paused and ...
 function Timer(callback, delay) {
-    let timerId, start, remaining = delay, running, finish = false;
-
-    this.pause = () => {
-        if( running ) {
-            running = false;
-            window.clearTimeout(timerId);
-            remaining -= new Date() - start;
-        }
-    };
-
-    this.resume = () => {
-        running = true;
-        start = new Date();
-        window.clearTimeout(timerId);
-        timerId = window.setTimeout(()=>{callback(), finish = true; running = false;}, remaining);
-    };
-
-    this.getTimeLeft = () => {
-        if (running) {
-            this.pause()
-            this.resume()
-        }
-
-        return remaining
-    }
-
-    // miliseconds
-    this.addTime = timePice => {
-        remaining += timePice;
-        if (running) {
-            this.pause()
-            this.resume()
-        }
-    }
-
-    this.getStateRunning = ()=>running;
-
-    this.getStateFinish = ()=>finish;
-
-    this.stop = ()=>{ 
-        finish = true; running = false;
-        window.clearTimeout(timerId); 
-    };
-
-    this.resume();
+    this.remaining = delay;
+    this.callback = callback;
+    this.running = true;
+    this.finish = false;
+    this.timerId;
+    this.start;
+    
+    this.resume(); // Start timer
 }
+
+Timer.prototype.pause = function() {
+    if( this.running ) {
+        this.running = false;
+        window.clearTimeout(this.timerId);
+        this.remaining -= new Date() - this.start;
+    }
+};
+
+Timer.prototype.resume = function() {
+    this.running = true;
+    this.start = new Date();
+    window.clearTimeout(this.timerId);
+
+    this.timerId = window.setTimeout(()=>{
+        this.callback(),
+        this.finish = true;
+        this.running = false;
+    }, this.remaining);
+};
+
+Timer.prototype.getTimeLeft = function() {
+    if(this.running)
+        return this.remaining - ( new Date() - this.start );
+    else
+        return this.remaining;
+};
+
+Timer.prototype.addTime = function(timePice) {
+    this.remaining += timePice;
+    if (this.running) {
+        this.pause()
+        this.resume()
+    }
+};
+
+Timer.prototype.getStateRunning = function() { return this.running; };
+
+Timer.prototype.getStateFinish = function() { return this.finish; };
+
+Timer.prototype.stop = function() { 
+    this.finish = true; this.running = false;
+    window.clearTimeout(this.timerId); 
+};

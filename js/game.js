@@ -6,19 +6,20 @@ function Game() {
     const field = new Field;
     const points = new Points;
     const cubeGenerator = new Generator(produceCubes, cubeGenerationDelay);
-    const gameTimer = new GameTimer(timeLeft => { 
-        if(timeLeft)
-            Result.addResult(points.getTotalPoints());
+    const gameTimer = new GameTimer(() => { 
+        Result.addResult(points.getTotalPoints());
         this.stop(); 
     }, gameTime);
 
     let running = true;
     let onFinishCallback = () => { };
 
-    // Create cube and add its to the game field
+    // Create cube and add its to a game field
     function produceCube() {
-        // Prevent too many cubes on the field
-        if (Cube.getTotalArea() < field.getArea() / 3 && Cube.getCubesNumber() < 15) {
+        // Prevent too many cubes on a field
+        if (Cube.getTotalArea() < field.getArea() / 3
+             && Cube.getCubesNumber() < 15
+             && running) {
             let mover = {};
             let cubePoints = 1;
             const cube = new Cube(getCubeSizeByGameTime(), getCubeColor(), (event, flag) => {
@@ -52,7 +53,7 @@ function Game() {
                 }
             });
 
-            field.addElement(cube.jElement, $('.field')); // Set random position
+            field.addElement(cube.jElement, $('.field'));
             mover = new Mover(cube.jElement, field); // Make cube moveable
         }
     }
@@ -106,7 +107,7 @@ function Game() {
         running = false;
         gameTimer.stop();
         cubeGenerator.stop();
-        $( ".cube" ).trigger( "mousedown", "stop" );
+        $( ".cube" ).trigger( "mousedown", "stop" ); // Invoke mover action
         field.clear();
         onFinishCallback();
     };
@@ -115,8 +116,8 @@ function Game() {
         if (running) {
             running = false;
             $( ".cube" ).trigger( "mousedown", "pause" );
-            gameTimer.pause();
             cubeGenerator.pause();
+            gameTimer.pause();
         }
     };
 

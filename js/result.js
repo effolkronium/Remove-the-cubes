@@ -15,8 +15,8 @@ const Result = (() => {
             }
         }
     })());
-
-    $("#resultModal").on('hide.bs.modal', () => {
+    
+    $("#resultModal").on('hide.bs.modal', () => { // Invoke at modal close
         const name = nameElement.val();
         const points = $('.score').html().match(/Your score: (\d+)/i)[1]; //Extract points
 
@@ -26,7 +26,7 @@ const Result = (() => {
     });
 
     // Add new DOM element into table
-    function saveInTable(name, points) {
+    const saveInTable = (name, points) => {
         const tableRow = $('<tr>');
 
         const nameElement = $('<td>');
@@ -45,20 +45,22 @@ const Result = (() => {
     }
 
     // Save in BD, local storage and in table
-    function save(name, points) {
+    const save = (name, points) => {
         resultData.push({
             'name': name,
             'points': points
         });
-
-        localStorage.setItem("data", JSON.stringify(resultData));
+        try { // EDGE BUG FIX
+            localStorage.setItem("data", JSON.stringify(resultData));
+        } catch(err){}
 
         updateTable();
     }
-
+    
     // Load BD from local storage and initilize result table
-    function load() {
-        const dataStr = localStorage.getItem("data");
+    const load = () => {
+        try {
+        const dataStr = window.localStorage.getItem("data");
         if (dataStr.length) {
             try { // catch invalid data in local storage
                 resultData = JSON.parse(dataStr);
@@ -68,15 +70,16 @@ const Result = (() => {
                 resultData = [];
             }
         }
+        } catch(err){} // EDGE BUG FIX
     }
 
     // Clear table. Sort resultData by points. Insert sorted results into table
-    function updateTable() {
+    const updateTable = () => {
         tableElement.empty();
 
         resultData.sort((lhs, rhs) => {
-            if (lhs.points < rhs.points) return 1;
-            if (lhs.points > rhs.points) return -1;
+            if (parseInt(lhs.points) < parseInt(rhs.points)) return 1;
+            if (parseInt(lhs.points) > parseInt(rhs.points)) return -1;
             return 0;
         });
 
@@ -85,7 +88,7 @@ const Result = (() => {
         });
     }
 
-    load(); // Load
+    load(); // Load BD
 
     return {
         addResult: points => {

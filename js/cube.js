@@ -3,9 +3,7 @@ function Cube(size, color, onClick) {
     // JQuery cube DOM element
     this.jElement = $("<img>", {
         style: "width:" + size + "px;"
-        + "height:" + size + "px;"
-        //+ "background-color:" + color + ";"
-        ,
+        + "height:" + size + "px;",
         src: "assets/cube_" + color + ".svg",
         class: "cube"
     });

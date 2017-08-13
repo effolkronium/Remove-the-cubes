@@ -1,0 +1,26 @@
+body, .modal-dialog, .modal-content {
+    background-color: black
+}
+
+.field {
+    background-color: greenyellow;
+}
+
+.result {
+    background-color: yellowgreen;
+}
+
+.field, .result, .modal-dialog, .me {
+    border-style: groove;
+    border-width: 10px;
+    border-color: violet
+}
+
+h1, h2, h3, h4, h5, h6, .text {
+    color: yellow;
+}
+
+button, .close, .save {
+    background-color: violet;
+    color: yellow;
+}

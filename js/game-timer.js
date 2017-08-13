@@ -1,43 +1,29 @@
-function GameTimer(callback, delay) { 
+'use strict'
+
+// Timer which update DOM element 'time left'
+function GameTimer(callback, delay) {
+    Timer.call(this, callback, delay); // parent constructor
+
+    // Start DOM 'time left' updating
     const timeElement = $('.Time');
 
-    let timer = new Timer(()=>{}, delay);
-
-    const timerId = setInterval(()=>{
-        const date = new Date(timer.getTimeLeft());
-        if( timer.getStateFinish() || date.getSeconds() === 0 ) {
-            this.stop(true);
-        } else {
-            timeElement.html( '' + formatTime( date.getMinutes() )
-                                 + ':' + formatTime( date.getSeconds() ) );
-        }
-    }, 100);
-
     function formatTime(time) {
-        if( time < 10 ) return '0' + time;
+        if (time < 10) return '0' + time;
         return time;
     }
 
-    let isStop = false;
-    this.stop = (timeLeft = false)=>{
-        if( !isStop ) { // prevent recursion call
-            isStop = true;
-            timeElement.html( "00:00" );
+    const timerId = setInterval(() => {
+        const date = new Date(this.getTimeLeft());
+        console.log(date.getSeconds());
+        if (this.getStateFinish()) {
             clearInterval(timerId);
-            timer.stop();
-            callback(timeLeft);
+            timeElement.html( "00:00" );
+        } else {
+            timeElement.html('' + formatTime(date.getMinutes())
+                + ':' + formatTime(date.getSeconds()));
         }
-    };
-
-    this.pause = ()=>{ timer.pause(); };
-    this.resume = ()=>{ timer.resume(); };
-    this.isRunning = ()=>timer.getStateRunning();
-    this.getTimeLeft = ()=>timer.getTimeLeft();
-    this.addTime = timePice=>{ // Time can't be more then 1 minute.
-        timer.addTime(timePice);
-        const timeLeft = timer.getTimeLeft();
-        if(timeLeft > delay) {
-            timer.addTime(delay - timeLeft);
-        }
-    };
+    }, 100);
 }
+
+GameTimer.prototype = Object.create(Timer.prototype);
+GameTimer.prototype.constructor = GameTimer;
