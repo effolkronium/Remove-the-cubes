@@ -14,7 +14,7 @@ function GameTimer(callback, delay) {
 
     const timerId = setInterval(() => {
         const date = new Date(this.getTimeLeft());
-        console.log(date.getSeconds());
+        
         if (this.getStateFinish()) {
             clearInterval(timerId);
             timeElement.html( "00:00" );

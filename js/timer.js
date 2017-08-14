@@ -25,9 +25,9 @@ Timer.prototype.resume = function() {
     window.clearTimeout(this.timerId);
 
     this.timerId = window.setTimeout(()=>{
-        this.callback(),
         this.finish = true;
         this.running = false;
+        this.callback();
     }, this.remaining);
 };
 

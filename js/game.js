@@ -16,10 +16,8 @@ function Game() {
 
     // Create cube and add its to a game field
     function produceCube() {
-        // Prevent too many cubes on a field
         if (Cube.getTotalArea() < field.getArea() / 3
-             && Cube.getCubesNumber() < 15
-             && running) {
+             && Cube.getCubesNumber() < 15 ) {// Prevent too many cubes on a field
             let mover = {};
             let cubePoints = 1;
             const cube = new Cube(getCubeSizeByGameTime(), getCubeColor(), (event, flag) => {
