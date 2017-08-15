@@ -3,7 +3,10 @@ body, .modal-dialog, .modal-content {
 }
 
 .field {
-    background-color: greenyellow;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(black),gray));
+    background-image: -webkit-linear-gradient(top, black, gray);
+    background-image: -moz-linear-gradient(top, black, gray);
+    background-image: linear-gradient(to bottom, black, gray);;
 }
 
 .result {
@@ -14,6 +17,11 @@ body, .modal-dialog, .modal-content {
     border-style: groove;
     border-width: 10px;
     border-color: violet
+}
+
+.me {
+    margin-top: 13px;
+    margin-left: 30px;
 }
 
 h1, h2, h3, h4, h5, h6, .text {

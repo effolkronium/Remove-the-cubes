@@ -1,14 +1,14 @@
-// Move a DOM element on a field while he's exist
+// Move a DOM element on a field
 function Mover(element, field) {
     let position = {
         x: element.position().left,
         y: element.position().top
     };
     let velocity = {
-        x: Util.getRandomReal(0.05, 0.15),
-        y: Util.getRandomReal(0.05, 0.15)
+        x: Util.getRandomReal(0.05, 0.10),
+        y: Util.getRandomReal(0.05, 0.10)
     };
-    const frameRate = 1000 / 9;
+    const frameRate = 1000 / 7;
     let lastTime = new Date;
 
     let isRunning = true;
@@ -38,11 +38,11 @@ function Mover(element, field) {
         if (isRunning) {
             setTimeout(setRandomVelocity, Util.getRandomInt(500, 2000));
 
-
             if (Math.random() >= 0.5) {
                 if (velocity.x > 0) velocity.x = -velocity.x;
                 else velocity.x = Math.abs(velocity.x);
-
+            }
+            if (Math.random() >= 0.5) {
                 if (velocity.y > 0) velocity.y = -velocity.y;
                 else velocity.y = Math.abs(velocity.y);
             }
