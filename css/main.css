@@ -3,7 +3,7 @@ body, .modal-dialog, .modal-content {
 }
 
 .field {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(black),gray));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(black),gray);
     background-image: -webkit-linear-gradient(top, black, gray);
     background-image: -moz-linear-gradient(top, black, gray);
     background-image: linear-gradient(to bottom, black, gray);;
