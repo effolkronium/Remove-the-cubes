@@ -51,7 +51,7 @@ function Game() {
                 }
             });
 
-            field.addElement(cube.jElement, $('.field'));
+            field.addElement(cube.jElement);
             mover = new Mover(cube.jElement, field); // Make cube moveable
         }
     }
