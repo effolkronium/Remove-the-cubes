@@ -1,4 +1,4 @@
 # Remove-the-cubes
 The game
 
-![Screenshot](screenshots/Screenshot_2.png)
+![Screenshot](public/screenshots/Screenshot_2.png)
