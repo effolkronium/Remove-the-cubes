@@ -68,7 +68,7 @@ const Result = (() => {
         $.ajax({
             url: "api/load_result_table", success: (result) => {
                 resultData = result;
-                console.log(JSON.stringify(resultData));
+                //console.log(JSON.stringify(resultData));
                 updateTable();
             }
         });
