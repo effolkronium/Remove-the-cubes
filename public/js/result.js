@@ -15,7 +15,7 @@ const Result = (() => {
             }
         }
     })());
-    
+
     $("#resultModal").on('hide.bs.modal', () => { // Invoke at modal close
         const name = nameElement.val();
         const points = $('.score').html().match(/Your score: (\d+)/i)[1]; //Extract points
@@ -50,27 +50,28 @@ const Result = (() => {
             'name': name,
             'points': points
         });
-        try { // EDGE BUG FIX
-            localStorage.setItem("data", JSON.stringify(resultData));
-        } catch(err){}
+
+        $.ajax({
+            url: 'api/save_result_table',
+            type: 'POST',
+            contentType:'application/json',
+            data: JSON.stringify(resultData),
+            dataType:'json'
+          });
 
         updateTable();
     }
-    
+
     // Load BD from local storage and initilize result table
     const load = () => {
-        try {
-        const dataStr = window.localStorage.getItem("data");
-        if (dataStr.length) {
-            try { // catch invalid data in local storage
-                resultData = JSON.parse(dataStr);
+        resultData = [];
+        $.ajax({
+            url: "api/load_result_table", success: (result) => {
+                resultData = result;
+                console.log(JSON.stringify(resultData));
                 updateTable();
-            } catch (err) {
-                console.log('Warning: invalid data in local storage');
-                resultData = [];
             }
-        }
-        } catch(err){} // EDGE BUG FIX
+        });
     }
 
     // Clear table. Sort resultData by points. Insert sorted results into table
@@ -82,6 +83,9 @@ const Result = (() => {
             if (parseInt(lhs.points) > parseInt(rhs.points)) return -1;
             return 0;
         });
+
+        while(resultData.length > 5) // Save last 5 with biggest points
+            resultData.pop();
 
         resultData.forEach(result => {
             saveInTable(result.name, result.points);

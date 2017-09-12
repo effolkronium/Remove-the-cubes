@@ -1,7 +1,7 @@
 // The Game logic
 function Game() {
     const cubeGenerationDelay = { min: 500, max: 1000 }; // miliseconds
-    const gameTime = 60000; // miliseconds
+    const gameTime = 1000; // miliseconds
 
     const field = new Field;
     const points = new Points;
