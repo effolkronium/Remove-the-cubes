@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 
 const server = http.createServer((request, response) => {
-    console.log(`LOG: request url === ${request.url}`);
+    //console.log(`LOG: request url === ${request.url}`);
 
     const url = request.url;
 
@@ -67,7 +67,7 @@ const server = http.createServer((request, response) => {
         response.end();
     }
 
-    console.log(`LOG: request is ended`);
+    //console.log(`LOG: request is ended`);
 });
 
 server.listen(8080);
