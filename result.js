@@ -66,7 +66,7 @@ module.exports = new class {
         return this._results.slice(0, 10); // results should be already sorted
     }
 
-    // Perfom binary search 
+    // Perfom binary search O(lgn)
     getIndexForResult(points) {
         const end = this._results.length - 1;
         const start = 0;
