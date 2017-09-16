@@ -43,7 +43,7 @@ function processGetRequest(request, response) {
             response.end(`Path ${pathname} isn't exist.`);
         } else {
             // root
-            if (fs.statSync(pathname).isDirectory()) {
+            if ('./public/' === pathname) {
                 pathname += '/index.html';
             }
 
