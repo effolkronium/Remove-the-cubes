@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/effolkronium/Remove-the-cubes/issues"
   },
-  "homepage": "https://github.com/effolkronium/Remove-the-cubes#readme"
+  "homepage": "https://github.com/effolkronium/Remove-the-cubes#readme",
+  "dependencies": {
+    "mime": "^2.0.1"
+  }
 }
