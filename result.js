@@ -36,12 +36,15 @@ module.exports = new class {
         //bugfix
         result.points = parseInt(result.points);
 
-        // find index for new result
-        let index = this._results.findIndex(value => {
-            return value.points <= result.points;
-        });
+        // O(n)
+        // let index = this._results.findIndex(value => {
+        //     return value.points <= result.points;
+        // });
 
-        //console.log(`Index = ${index}; typeof: ${typeof(result.points)}`);
+        // O(lgn) !
+        let index = this.getIndexForResult(result.points);
+
+        console.log(`Index = ${index}`);
 
         // if no lower results, push back
         if(-1 === index) {
@@ -61,5 +64,33 @@ module.exports = new class {
      */
     getTop10() {
         return this._results.slice(0, 10); // results should be already sorted
+    }
+
+    // Perfom binary search 
+    getIndexForResult(points) {
+        const end = this._results.length - 1;
+        const start = 0;
+        let left = start;
+        let right = end;
+
+        if (0 === this._results.length ||
+            this._results[0].points < points) {
+            return start;
+        }
+        
+        if(this._results[end].points > points) {
+            return end;
+        }
+
+        while(right - left > 0) {
+            const mid = Math.floor(left + (right - left) / 2);
+
+            if(points >= this._results[mid].points)
+                right = mid;
+            else
+                left = mid + 1;
+        }
+
+        return right;
     }
 }
