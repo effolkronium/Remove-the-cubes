@@ -1,110 +1,101 @@
 const http = require('http');
 const fs = require('fs');
+const url = require('url');
+const path = require('path');
+const mime = require('mime'); // https://www.npmjs.com/package/mime
+const gameResult = require('./result')
+
+const port = process.argv[2] || 8080;
 
 const server = http.createServer((request, response) => {
-    //console.log(`LOG: request url === ${request.url}`);
+    console.log(`LOG: ${request.method} ${request.url}`);
 
-    const url = request.url;
-
-    const sender = new Sender(response); // Implemented below
-
-    // root
-    if ('/' === url)
-        sender.sendHtml(`./public/index.html`);
-
-    // app icon
-    else if (/favicon/i.test(url))
-        sender.sendPng('./favicon.png');
-
-    // html
-    else if (/.html$/.test(url))
-        sender.sendHtml(`./public${url}`);
-
-    // css
-    else if (/.css/.test(url))
-        sender.sendCSS(`./public${url}`)
-
-    // js
-    else if (/.js$/.test(url))
-        sender.sendJS(`./public${url}`);
-
-    // png
-    else if (/.png$/.test(url))
-        sender.sendPng(`./public${url}`)
-
-    // svg
-    else if (/.svg$/.test(url))
-        sender.sendSVG(`./public${url}`)
-
-    // api
-    else if (/api/.test(url)) {
-
-        if (/load_result_table/.test(url))
-            fs.readFile('./result.json', 'utf8', (err, data)=>{
-                if(err) {
-                    console.warn(`Read result.json error: ${err}`)
-                } else {
-                    sender.sendJSON(data);
-                }
-            });
-        else if (/save_result_table/.test(url)) {
-            let reqData = '';
-
-            request.on('data', data => {
-                reqData += data;
-            });
-
-            request.on('end', () => {
-                fs.writeFile('./result.json', reqData);
-            });
+    if ('GET' === request.method) {
+        if (/ajax/.test(request.url)) {
+            processGetRequestAjax(request, response);
+        } else {
+            processGetRequest(request, response);
         }
-
-    }
-    // error
-    else {
-        response.writeHead(404, { "Content-Type": "text/plain" });
-        response.write("404 Not Found");
-        response.end();
-    }
-
-    //console.log(`LOG: request is ended`);
-});
-
-server.listen(8080);
-
-// Send different files to a client
-class Sender {
-    constructor(response) {
-        this.response = response;
-    }
-
-    // Send file to a client and auto-end response
-    sendFile(path, contentType) {
-        this.response.setHeader('Content-Type', contentType);
-
-        const reader = fs.createReadStream(path);
-
-        reader.pipe(this.response);
-
-        reader.on('error', errArg => {
-            this.response.writeHead(404, { "Content-Type": "text/plain" });
-            this.response.write(`ReadStream error: ${errArg} 404 Not Found`);
-            this.response.end();
+    } else if ('POST' === request.method) {
+        let postData = '';
+        request.on('data', data => {
+            postData = postData + data;
         });
+
+        request.on('end', () => {
+            processPostRequest(request, response, postData);
+        });
+    } else {
+        response.statusCode = 501; // Not Implemented
+        response.end('Not Implemented')
+    }
+}).listen(parseInt(port));
+
+console.log(`Server listening on port ${port}`);
+
+function processGetRequest(request, response) {
+    const parsedUrl = url.parse(request.url); // Ignore '?...' or '#...' in url by pathname
+    let pathname = `./public${parsedUrl.pathname}`;
+
+    fs.exists(pathname, exist => {
+        if (!exist) {
+            response.statusCode = 404;
+            response.end(`Path ${pathname} isn't exist.`);
+        } else {
+            // root
+            if (fs.statSync(pathname).isDirectory()) {
+                pathname += '/index.html';
+            }
+
+            const readStream = fs.createReadStream(pathname);
+
+            readStream.on('error', err => {
+                response.statusCode = 500;
+                response.end(`Error getting the file: ${err}.`);
+            });
+
+            const fileExt = path.parse(pathname).ext;
+            response.setHeader('Content-type', mime.getType(fileExt));
+
+            readStream.pipe(response);
+        }
+    })
+}
+
+function processGetRequestAjax(request, response) {
+    if(request.url !== '/ajax/get_top_10') {
+        response.statusCode = 400; // Bad Request
+        response.end();
+        return;
     }
 
-    sendPng(path) { this.sendFile(path, 'image/png'); }
-    sendHtml(path) { this.sendFile(path, 'text/html') }
-    sendCSS(path) { this.sendFile(path, 'text/css') }
-    sendJS(path) { this.sendFile(path, 'application/javascript') }
-    sendSVG(path) { this.sendFile(path, 'image/svg+xml') }
+    response.setHeader('Content-type', mime.getType('json'));
 
-    sendJSON(jsonObject) {
-        if (typeof (jsonObject) === 'object')
-            jsonObject = JSON.stringify(jsonObject);
+    response.end(JSON.stringify(gameResult.getTop10()));
+}
 
-        this.response.writeHead(200, { "Content-Type": "application/json" });
-        this.response.write(jsonObject);
-        this.response.end();
+function processPostRequest(request, response, data) {
+    try {
+        if ('/save_result' !== url.parse(request.url).pathname)
+            throw new Error('Invalid API');
+        
+        const result = JSON.parse(data);
+
+        if (undefined === result.name || undefined === result.points)
+            throw new Error('Invalid result data');
+
+        gameResult.add(result, err => {
+            if(err) {
+                response.statusCode = 500; // Internal Server Error
+            } else {
+                response.statusCode = 201;
+            }
+
+            response.end();
+        });
+    } catch (e) {
+        console.log(e);
+        response.statusCode = 400; // Bad Request
+        response.end();
     }
 }

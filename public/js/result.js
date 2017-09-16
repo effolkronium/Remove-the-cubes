@@ -20,9 +20,11 @@ const Result = (() => {
         const name = nameElement.val();
         const points = $('.score').html().match(/Your score: (\d+)/i)[1]; //Extract points
 
-        if (name.length) {
-            save(name, points);
-        }
+
+        if( !name.length)
+            name = 'anonymous';
+
+        save(name, parseInt(points));
     });
 
     // Add new DOM element into table
@@ -44,48 +46,28 @@ const Result = (() => {
         $('.tableBody').append(tableRow);
     }
 
-    // Save in BD, local storage and in table
+    // Save 
     const save = (name, points) => {
-        resultData.push({
+        $.post('save_result', JSON.stringify({
             'name': name,
-            'points': points
-        });
+            'points': parseInt(points)
+        }));
 
-        $.ajax({
-            url: 'api/save_result_table',
-            type: 'POST',
-            contentType:'application/json',
-            data: JSON.stringify(resultData),
-            dataType:'json'
-          });
-
-        updateTable();
+        load();
     }
 
-    // Load BD from local storage and initilize result table
+    // Load
     const load = () => {
         resultData = [];
-        $.ajax({
-            url: "api/load_result_table", success: (result) => {
-                resultData = result;
-                //console.log(JSON.stringify(resultData));
-                updateTable();
-            }
+        $.get('ajax/get_top_10', data =>{ 
+            resultData = data;
+            updateTable();
         });
     }
 
     // Clear table. Sort resultData by points. Insert sorted results into table
     const updateTable = () => {
         tableElement.empty();
-
-        resultData.sort((lhs, rhs) => {
-            if (parseInt(lhs.points) < parseInt(rhs.points)) return 1;
-            if (parseInt(lhs.points) > parseInt(rhs.points)) return -1;
-            return 0;
-        });
-
-        while(resultData.length > 5) // Save last 5 with biggest points
-            resultData.pop();
 
         resultData.forEach(result => {
             saveInTable(result.name, result.points);

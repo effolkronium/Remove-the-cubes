@@ -32,3 +32,8 @@ button, .close, .save {
     background-color: violet;
     color: yellow;
 }
+
+#results {
+    overflow-y:auto; 
+    overflow-x:hidden;
+}
