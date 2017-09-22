@@ -48,10 +48,10 @@ const Result = (() => {
 
     // Save 
     const save = (name, points) => {
-        $.post('save_result', JSON.stringify({
+        $.post('results', {
             'name': name,
             'points': parseInt(points)
-        }));
+        });
 
         load();
     }
@@ -59,7 +59,7 @@ const Result = (() => {
     // Load
     const load = () => {
         resultData = [];
-        $.get('ajax/get_top_10', data =>{ 
+        $.get('results', data =>{ 
             resultData = data;
             updateTable();
         });
