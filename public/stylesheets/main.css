@@ -1,0 +1,39 @@
+body, .modal-dialog, .modal-content {
+    background-color: black
+}
+
+.field {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(black),gray);
+    background-image: -webkit-linear-gradient(top, black, gray);
+    background-image: -moz-linear-gradient(top, black, gray);
+    background-image: linear-gradient(to bottom, black, gray);;
+}
+
+.result {
+    background-color: yellowgreen;
+}
+
+.field, .result, .modal-dialog, .me {
+    border-style: groove;
+    border-width: 10px;
+    border-color: violet
+}
+
+.me {
+    margin-top: 13px;
+    margin-left: 30px;
+}
+
+h1, h2, h3, h4, h5, h6, .text {
+    color: yellow;
+}
+
+button, .close, .save {
+    background-color: violet;
+    color: yellow;
+}
+
+#results {
+    overflow-y:auto; 
+    overflow-x:hidden;
+}
